@@ -1,0 +1,26 @@
+{
+  "name": "bbresults",
+  "version": "0.0.0",
+  "description": "Library to make BBEdit display a results browser, given some data for a file containing line and reason pointers.",
+  "main": "index.js",
+  "dependencies": {
+    "applescript": "~0.2.1",
+    "terminal-notifier": "~0.1.0"
+  },
+  "devDependencies": {
+    "tape": "~0.2.2"
+  },
+  "scripts": {
+    "test": "node tests/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/isao/bbresults.git"
+  },
+  "keywords": [
+    "bbedit",
+    "applescript"
+  ],
+  "author": "Isao Yagi <isao.yagi@gmail.com>",
+  "license": "MIT"
+}
