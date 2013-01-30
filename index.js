@@ -31,23 +31,30 @@ function scriptToString(items, title) {
     ].join('\n');
 }
 
-function ascrCb(err, stdout, stderr) {
-    if (err, stderr) {
-        console.error(err, stderr);
-    }
-    if (stdout) {
-        console.log(results);
-    }
+function runscript(str) {
+    var osarun = spawn('osascript', ['-ss']),
+        err = '',
+        out = '';
+
+    osarun.stdin.write(str)
+    osarun.stdin.end();
+    osarun.stdout.on('data', function(data) {
+        out += data;
+    });
+    osarun.stderr.on('data', function(data) {
+        err += data;
+    });
+    osarun.on('exit', function(code) {
+        if (0 !== code) {
+        	console.error('error %d, %s', code, stderr);
+        }
+    });
 }
 
 function show(results, file, title) {
     var items = itemsToString(results, file),
-        script = scriptToString(items, title),
-        osarun = spawn('osascript', ['-ss', script]);
-    
-    osarun.stdout.on('data', console.log);
-    osarun.stderr.on('data', console.log);
-    osarun.on('exit', console.log);
+        script = scriptToString(items, title);
+    runscript(script);
 }
 
 module.exports = {
