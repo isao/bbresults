@@ -44,6 +44,10 @@ function show(results, file, title) {
     var items = itemsToString(results, file),
         script = scriptToString(items, title),
         osarun = spawn('osascript', ['-ss', script]);
+    
+    osarun.stdout.on('data', console.log);
+    osarun.stderr.on('data', console.log);
+    osarun.on('exit', console.log);
 }
 
 module.exports = {
