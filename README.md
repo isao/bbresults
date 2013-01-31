@@ -15,7 +15,7 @@ Test
 
 Acknowledgements
 ----------------
-TooTallNate's [applescript module](/TooTallNate/node-applescript) for made the first attempt easy. Also showed me `osascript` accepts applescript text on stdin, nice.
+TooTallNate's [applescript module](/TooTallNate/node-applescript) made the first attempt easy. Also showed me `osascript` accepts applescript text on stdin, nice.
 
 OS X notifications via Eloy Durán's [terminal-notifier](/alloy/terminal-notifier) and Evan Wallace's [node wrapper](https://npmjs.org/package/terminal-notifier) for same.
 
