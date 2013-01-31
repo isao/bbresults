@@ -3,64 +3,61 @@
 'use strict';
 
 var fs = require('fs'),
-    spawn = require('child_process').spawn,
-    note = require('terminal-notifier');
+    notify = require('terminal-notifier'),
+    spawn = require('child_process').spawn;
 
 
-function itemsToString(results, file) {
+function getItems(results, file) {
     var out = [];
     results.forEach(function (result) {
         var item = [
-                '{result_kind: "Error"',
+                'result_kind: "Error"',
                 'result_file: "' + file + '"',
                 'result_line: ' + result.line,
-                'message: "' + result.reason.replace(/"/g, '\\"') + '"}' //escape
+                'message: "' + result.reason.replace(/"/g, '\\"') +'"'
             ].join();
-        out.push(item);
+        out.push('{' + item + '}');
     });
     return '{' + out.join() + '}';
 }
 
-function scriptToString(items, title) {
+function getScript(items, title) {
     var props = 'with properties {name:"' + title +'"}';
     return [
         'tell application "BBEdit"',
-        'set errs to ' + items,
-        'make new results browser with data errs ' + props,
+        '  set errs to ' + items,
+        '  make new results browser with data errs ' + props,
         'end tell'
     ].join('\n');
 }
 
-function runscript(str) {
+function runScript(str, cb) {
     var osarun = spawn('osascript', ['-ss']),
-        err = '',
-        out = '';
+        err = '';
 
     osarun.stdin.write(str)
     osarun.stdin.end();
-    osarun.stdout.on('data', function(data) {
-        out += data;
-    });
     osarun.stderr.on('data', function(data) {
         err += data;
     });
     osarun.on('exit', function(code) {
         if (0 !== code) {
-        	console.error('error %d, %s', code, stderr);
+            console.error('*error code', code);
+            console.error('*stderr', err);
         }
+        cb(code);
     });
 }
 
-function show(results, file, title) {
-    var items = itemsToString(results, file),
-        script = scriptToString(items, title);
-    runscript(script);
+function show(results, file, title, cb) {
+    var items = getItems(results, file),
+        script = getScript(items, title);
+
+    runScript(script, cb || function() {});
 }
 
 module.exports = {
     show: show,
-    test: {
-        items: itemsToString,
-        script: scriptToString
-    }
+    notify: notify,
+    test: {getItems: getItems, getScript: getScript}
 };
