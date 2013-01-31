@@ -3,7 +3,7 @@ BBresults
 
 Library to make [BBEdit](http://barebones.com/products/bbedit/) display a results browser, given some data for a file containing line and reason pointers.
 
-Used by [BBJshint](../bbjshint) and [BBJslint](../bbjslint).
+Used by [BBJshint](/isao/bbjshint) and [BBJslint](/isao/bbjslint).
 
 Install
 -------
