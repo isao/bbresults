@@ -33,9 +33,9 @@ test('script string', function(t) {
     t.plan(1);
 
     var items = '{{result_kind: "Error",result_file: "' + pathname + '",result_line: 1,message: "Twas brillig, and the slithy toves"},{result_kind: "Error",result_file: "' + pathname + '",result_line: 2,message: "Did gyre and gimble in the wabe:"}}',
-        title = 'jabberwocky lines I can"t understand',
+        title = "jabberwocky lines I can't understand",
         actual = bbrb.test.getScript(items, title),
-        expected = 'tell application "BBEdit"\n  set errs to {{result_kind: "Error",result_file: "' + pathname + '",result_line: 1,message: "Twas brillig, and the slithy toves"},{result_kind: "Error",result_file: "' + pathname + '",result_line: 2,message: "Did gyre and gimble in the wabe:"}}\n  make new results browser with data errs with properties {name:"jabberwocky lines I can"t understand"}\nend tell';
+        expected = 'tell application "BBEdit"\n  set errs to {{result_kind: "Error",result_file: "' + pathname + '",result_line: 1,message: "Twas brillig, and the slithy toves"},{result_kind: "Error",result_file: "' + pathname + '",result_line: 2,message: "Did gyre and gimble in the wabe:"}}\n  set props to {name:"jabberwocky lines I can\'t understand"}\n  make new results browser with data errs with properties props\nend tell';
 
     t.equals(actual, expected);
 });

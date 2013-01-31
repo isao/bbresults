@@ -22,17 +22,17 @@ function getItems(results, file) {
 }
 
 function getScript(items, title) {
-    var props = 'with properties {name:"' + title +'"}';
     return [
         'tell application "BBEdit"',
         '  set errs to ' + items,
-        '  make new results browser with data errs ' + props,
+        '  set props to {name:"' + title +'"}',
+        '  make new results browser with data errs with properties props',
         'end tell'
     ].join('\n');
 }
 
 function runScript(str, cb) {
-    var osarun = spawn('osascript', ['-ss']),
+    var osarun = spawn('osascript'),
         err = '';
 
     osarun.stdin.write(str)
