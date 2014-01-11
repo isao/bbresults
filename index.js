@@ -1,24 +1,22 @@
 #!/usr/bin/env node
-/*jshint node:true */
 'use strict';
 
-var fs = require('fs'),
-    notify = require('terminal-notifier'),
-    spawn = require('child_process').spawn;
+var osarun = require('./osascript'),
+    notify = require('terminal-notifier');
 
 
 function getItems(results, file) {
     var out = [];
-    results.forEach(function (result) {
+    results.filter(Boolean).forEach(function (result) {
         var item = [
                 'result_kind: "Error"',
                 'result_file: "' + file + '"',
-                'result_line: ' + result.line,
+                'result_line: "' + result.line + '"',
                 'message: "' + result.reason.replace(/"/g, '\\"') +'"'
             ].join();
         out.push('{' + item + '}');
     });
-    return '{' + out.join() + '}';
+    return '{' + out.join() + '}'
 }
 
 function getScript(items, title) {
@@ -31,33 +29,20 @@ function getScript(items, title) {
     ].join('\n');
 }
 
-function runScript(str, cb) {
-    var osarun = spawn('osascript'),
-        err = '';
-
-    osarun.stdin.write(str)
-    osarun.stdin.end();
-    osarun.stderr.on('data', function(data) {
-        err += data;
-    });
-    osarun.on('exit', function(code) {
-        if (0 !== code) {
-            console.error('*error code', code);
-            console.error('*stderr', err);
-        }
-        cb(code);
-    });
-}
-
-function show(results, file, title, cb) {
+function main(results, file, title, cb) {
     var items = getItems(results, file),
         script = getScript(items, title);
 
-    runScript(script, cb || function() {});
+    osarun(script, cb || function() {});
 }
 
 module.exports = {
-    show: show,
+    show: main,
+    browse: main,
     notify: notify,
-    test: {getItems: getItems, getScript: getScript}
+    osarun: osarun,
+    test: {
+        getItems: getItems,
+        getScript: getScript
+    }
 };

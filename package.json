@@ -1,6 +1,6 @@
 {
   "name": "bbresults",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Library to make BBEdit display a results browser, given some data for a file containing line and reason pointers.",
   "main": "index.js",
   "dependencies": {
