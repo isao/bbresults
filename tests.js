@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var test = require('tape'),
-    bbrb = require('./')
+    bbrb = require('./'),
     pathname = __filename;
 
 test('items show line, reason, file', function(t) {
