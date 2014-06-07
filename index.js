@@ -43,13 +43,16 @@ function main(results, file, title, cb) {
     osarun(script, cb || function(){});
 }
 
-module.exports = {
-    show: main,
-    browse: main,
-    notify: notify,
-    osarun: osarun,
-    test: {
-        bbBrowserProps: bbBrowserProps,
-        bbBrowserScript: bbBrowserScript
-    }
+module.exports = main;
+
+// deprecated
+module.exports.show = main;
+module.exports.browse = main;
+module.exports.notify = notify;
+module.exports.osarun = osarun;
+
+// for unit testing
+module.exports.test = {
+    bbBrowserProps: bbBrowserProps,
+    bbBrowserScript: bbBrowserScript
 };
