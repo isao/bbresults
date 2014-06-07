@@ -5,21 +5,29 @@ var osarun = require('./osascript'),
     notify = require('terminal-notifier');
 
 
-function getItems(results, file) {
-    var out = [];
-    results.filter(Boolean).forEach(function (result) {
-        var item = [
+function bbBrowserProps(results, file) {
+
+    function check(result) {
+        return result && result.reason && result.line
+            || console.error('WARNING invalid data:', result);
+    }
+
+    function reformat(result) {
+        var props = [
                 'result_kind: "Error"',
                 'result_file: "' + file + '"',
                 'result_line: "' + result.line + '"',
                 'message: "' + result.reason.replace(/"/g, '\\"') +'"'
-            ].join();
-        out.push('{' + item + '}');
-    });
-    return '{' + out.join() + '}'
+            ];
+
+        return '{' + props.join() + '}';
+    }
+
+    var bbresults = results.filter(check).map(reformat);
+    return '{' + bbresults.join() + '}';
 }
 
-function getScript(items, title) {
+function bbBrowserScript(items, title) {
     return [
         'tell application "BBEdit"',
         '  set errs to ' + items,
@@ -30,8 +38,8 @@ function getScript(items, title) {
 }
 
 function main(results, file, title, cb) {
-    var items = getItems(results, file),
-        script = getScript(items, title);
+    var items = bbBrowserProps(results, file),
+        script = bbBrowserScript(items, title);
 
     osarun(script, cb || function() {});
 }
@@ -42,7 +50,7 @@ module.exports = {
     notify: notify,
     osarun: osarun,
     test: {
-        getItems: getItems,
-        getScript: getScript
+        bbBrowserProps: bbBrowserProps,
+        bbBrowserScript: bbBrowserScript
     }
 };
