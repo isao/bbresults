@@ -38,9 +38,9 @@ function bbBrowserScript(items, title) {
 
 function main(results, file, title, cb) {
     var items = bbBrowserProps(results, file),
-        script = bbBrowserScript(items, title);
+        script = bbBrowserScript(items, title || 'Results');
 
-    osarun(script, cb || function() {});
+    osarun(script, cb || function(){});
 }
 
 module.exports = {
