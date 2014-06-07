@@ -15,10 +15,10 @@ function bbBrowserProps(results, file) {
         result_file, result_line, start_offset, end_offset, message  */
     function reformat(result) {
         var props = [
-                'result_kind: "Error"',
-                'result_file: "' + file + '"',
-                'result_line: "' + result.line + '"',
-                'message: "' + result.reason.replace(/"/g, '\\"') +'"'
+                'result_kind:error_kind',
+                'result_file:"' + file.replace(/"/g, '\\"') + '"',
+                'result_line:"' + result.line + '"',
+                'message:"' + result.reason.replace(/"/g, '\\"') +'"'
             ];
 
         return '{' + props.join() + '}'; // bbedit's result browser data list
