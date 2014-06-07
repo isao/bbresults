@@ -4,13 +4,11 @@ var osarun = require('./osascript'),
     notify = require('terminal-notifier');
 
 
+function check(o) {
+    return o && o.line || console.error('WARNING invalid data:', o);
+}
+
 function bbBrowserProps(results, file) {
-
-    function check(result) {
-        return result && result.reason && result.line
-            || console.error('WARNING invalid data:', result);
-    }
-
     /*  note: valid BBEdit results browser data properties are: result_kind,
         result_file, result_line, start_offset, end_offset, message  */
     function reformat(result) {
