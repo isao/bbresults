@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 'use strict';
 
 var osarun = require('./osascript'),
@@ -12,6 +11,8 @@ function bbBrowserProps(results, file) {
             || console.error('WARNING invalid data:', result);
     }
 
+    /*  note: valid BBEdit results browser data properties are: result_kind,
+        result_file, result_line, start_offset, end_offset, message  */
     function reformat(result) {
         var props = [
                 'result_kind: "Error"',
@@ -20,7 +21,7 @@ function bbBrowserProps(results, file) {
                 'message: "' + result.reason.replace(/"/g, '\\"') +'"'
             ];
 
-        return '{' + props.join() + '}';
+        return '{' + props.join() + '}'; // bbedit's result browser data list
     }
 
     var bbresults = results.filter(check).map(reformat);
