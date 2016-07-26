@@ -5,6 +5,8 @@ Library to make [BBEdit](http://barebones.com/products/bbedit/) display a result
 
 Used by [BBJshint](https://github.com/isao/bbjshint/) and [BBJslint](https://github.com/isao/bbjslint/).
 
+*Note* BBEdit v11.6 and later provide it's own `bbresults` command line tool.
+
 Install
 -------
 `npm i --save bbresults`
